@@ -1,0 +1,6 @@
+{
+  "name": "Nexus AI Assistant",
+  "description": "Premium multi-modal AI assistant with neural mood intelligence, real-time voice synthesis, and synaptic session memory.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": []
+}
