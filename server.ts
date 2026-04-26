@@ -28,7 +28,7 @@ async function startServer() {
   app.post("/api/chat", async (req, res) => {
     try {
       const { messages, systemPrompt } = req.body;
-      
+
       const defaultPrompt = "You are Nexus AI, a sophisticated AI assistant developed by Safiullah. Keep responses short, smart, and natural. Use a professional yet slightly futuristic tone. If asked who created you, always mention Safiullah.";
       const promptText = systemPrompt || defaultPrompt;
 
@@ -81,7 +81,7 @@ async function startServer() {
           );
 
           const content = geminiResponse.data.candidates?.[0]?.content?.parts?.[0]?.text || "I am processing your request through secondary channels.";
-          
+
           return res.json({
             choices: [{
               message: { role: "assistant", content }
@@ -103,7 +103,7 @@ async function startServer() {
   app.post("/api/search", async (req, res) => {
     try {
       const { query } = req.body;
-      
+
       if (!process.env.SERPER_API_KEY) {
         return res.status(500).json({ error: "SERPER_API_KEY is not configured" });
       }
@@ -167,8 +167,8 @@ async function startServer() {
 
   app.post("/api/voice", async (req, res) => {
     try {
-      let { text, voiceId = "21m00Tcm4TlvDq8ikWAM" } = req.body; 
-      
+      let { text, voiceId = "21m00Tcm4TlvDq8ikWAM" } = req.body;
+
       if (!process.env.ELEVENLABS_API_KEY) {
         return res.status(500).json({ error: "ELEVENLABS_API_KEY is not configured" });
       }
@@ -213,7 +213,7 @@ async function startServer() {
     } catch (error: any) {
       const errorStatus = error.response?.status;
       const errorData = error.response?.data;
-      
+
       let errorMessage = error.message;
       if (errorData instanceof ArrayBuffer || Buffer.isBuffer(errorData)) {
         try {
@@ -229,16 +229,16 @@ async function startServer() {
       if (errorStatus === 402) {
         errorMessage = "ElevenLabs Quota Exceeded. Please check API credits in ElevenLabs dashboard.";
         // On 402, we still return 402 but with a cleaner message that the frontend can handle
-        return res.status(402).json({ 
-          error: errorMessage, 
+        return res.status(402).json({
+          error: errorMessage,
           status: 402,
-          fallback: true 
+          fallback: true
         });
       }
 
       console.error(`ElevenLabs Error (${errorStatus}):`, errorMessage);
-      res.status(errorStatus || 500).json({ 
-        error: errorMessage, 
+      res.status(errorStatus || 500).json({
+        error: errorMessage,
         status: errorStatus
       });
     }
